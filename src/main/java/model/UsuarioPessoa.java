@@ -1,11 +1,21 @@
 package model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "UsuarioPessoa.findAll", query= "select u from UsuarioPessoa u"), //padrão NomeClasse.ação é bom para não ser dificil identificar as namedqueries que serão chamdas em outras partes do sistema
+	@NamedQuery(name = "UsuarioPessoa.findPorNome", query= "select u from UsuarioPessoa u where u.nome = :nome")
+})
 public class UsuarioPessoa {
 
 	@Id
@@ -17,7 +27,29 @@ public class UsuarioPessoa {
 	private String email;
 	private String login;
 	private String senha;
+	private int idade;
 	
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER) //mapemaneto da fk definida no TelefoneUser
+	private List<TelefoneUser> telefoneUsers;
+	
+	
+	
+	
+	public List<TelefoneUser> getTelefoneUsers() {
+		return telefoneUsers;
+	}
+
+	public void setTelefoneUsers(List<TelefoneUser> telefoneUsers) {
+		this.telefoneUsers = telefoneUsers;
+	}
+
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+	
+	public int getIdade() {
+		return idade;
+	}
 	
 	public Long getId() {
 		return id;
@@ -56,5 +88,10 @@ public class UsuarioPessoa {
 		this.senha = senha;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
+				+ ", login=" + login + ", senha=" + senha + "]";
+	}
+
 }

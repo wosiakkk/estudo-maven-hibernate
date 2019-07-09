@@ -14,7 +14,7 @@ public class HibernateUtil {
 	
 	private static void init() {
 		try {
-			
+			//verificação para a leitura do xml ser lida apenas uma vez no progrma de forma estatica
 			if(factory == null) {
 				factory = Persistence.createEntityManagerFactory("estudo-maven-hibernate");
 			}
@@ -28,5 +28,10 @@ public class HibernateUtil {
 		return factory.createEntityManager(); /*Prove a parte de persistencia*/
 	}
 	
+	//método para a identificação da primary key
+	//retorna a primary key de um objeto qualquer
+	public static Object getPrimaryKey(Object entidade) {
+		return factory.getPersistenceUnitUtil().getIdentifier(entidade);
+	}
 	
 }
