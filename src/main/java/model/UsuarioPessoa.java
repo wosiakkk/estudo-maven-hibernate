@@ -17,7 +17,6 @@ public class UsuarioPessoa {
 	private String email;
 	private String login;
 	private String senha;
-	private int idade;
 	
 	
 	public Long getId() {
