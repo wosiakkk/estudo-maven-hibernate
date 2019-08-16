@@ -21,8 +21,8 @@
 	
 	
 	
-	<h:form>
-		<h:messages showDetail="true" showSummary="false" />
+	<h:form id="formulario">
+		<h:messages showDetail="true" showSummary="false" id="msg" />
 		<h:panelGrid columns="2">
 			<h:outputLabel value="ID:" />
 			<h:inputText readonly="true"
@@ -60,61 +60,64 @@
 			action="#{usuarioPessoaManagedBean.salvar}" />
 		<h:commandButton value="Novo"
 			action="#{usuarioPessoaManagedBean.novo}" />
-
-
-		<h:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
-			cellpadding="15" border="1">
-			<f:facet name="header">Lista de Usuários</f:facet>
-			
-			<h:column>
-				<f:facet name="header">ID</f:facet>
-				<h:outputText value="#{user.id}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
-				<h:outputText value="#{user.nome}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Sobrenome</f:facet>
-				<h:outputText value="#{user.sobrenome}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Email</f:facet>
-				<h:outputText value="#{user.email}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Idade</f:facet>
-				<h:outputText value="#{user.idade}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Login</f:facet>
-				<h:outputText value="#{user.login}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Editar</f:facet>
-				<h:commandLink value="Editar" immediate="true" id="botaoeditar">
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
-						<f:ajax execute="botaoeditar" render="@form" />
-				</h:commandLink>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Excluir</f:facet>
-				<h:commandLink action="#{usuarioPessoaManagedBean.remover}" immediate="true">
-					<h:graphicImage url="resources/img/delete.png" />
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
-				</h:commandLink>
-			</h:column>
-			
-		</h:dataTable>
+		</h:form>
+		
+		<h:form id="formTable">
+			<h:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
+				cellpadding="15" border="1">
+				<f:facet name="header">Lista de Usuários</f:facet>
+				
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{user.id}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{user.nome}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Sobrenome</f:facet>
+					<h:outputText value="#{user.sobrenome}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Email</f:facet>
+					<h:outputText value="#{user.email}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Idade</f:facet>
+					<h:outputText value="#{user.idade}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Login</f:facet>
+					<h:outputText value="#{user.login}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink immediate="true" id="botaoeditar">
+						<h:graphicImage url="resources/img/edit.png" />
+						<f:setPropertyActionListener value="#{user}"
+							target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
+							<f:ajax execute="botaoeditar" render=":formulario" />
+					</h:commandLink>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Excluir</f:facet>
+					<h:commandLink action="#{usuarioPessoaManagedBean.remover}" immediate="true" id="botaoremover">
+						<h:graphicImage url="resources/img/delete.png" />
+						<f:setPropertyActionListener value="#{user}"
+							target="#{usuarioPessoaManagedBean.usuarioPessoa}"/>
+						<f:ajax execute="botaoremover" render="@form :formulario :msg" />
+					</h:commandLink>
+				</h:column>
+				
+			</h:dataTable>
 
 	</h:form>
 </h:body>
