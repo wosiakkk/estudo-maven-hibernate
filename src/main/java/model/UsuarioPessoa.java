@@ -27,6 +27,7 @@ public class UsuarioPessoa {
 	private String email;
 	private String login;
 	private String senha;
+	private String sexo;
 	private int idade;
 	
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER) //mapemaneto da fk definida no TelefoneUser
@@ -86,6 +87,12 @@ public class UsuarioPessoa {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	public String getSexo() {
+		return sexo;
 	}
 	
 	@Override
