@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import dao.DaoGeneric;
+import dao.DaoUsuario;
 import model.UsuarioPessoa;
 
 @ManagedBean(name = "usuarioPessoaManagedBean")
@@ -17,8 +18,8 @@ import model.UsuarioPessoa;
 public class UsuarioPessoaManagedBean {
 
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
-	private DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
 	private List<UsuarioPessoa> list =  new ArrayList<UsuarioPessoa>();
+	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	
 	@PostConstruct
 	public void init() {
@@ -54,7 +55,7 @@ public class UsuarioPessoaManagedBean {
 	}
 	public String remover() {
 		try {
-			daoGeneric.deletarPorId(usuarioPessoa);
+			daoGeneric.removerUsuario(usuarioPessoa);
 			list.remove(usuarioPessoa);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação: ","Excluido com Sucesso!"));
 		} catch (Exception e) {
