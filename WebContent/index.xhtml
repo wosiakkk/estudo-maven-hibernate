@@ -117,6 +117,14 @@
 					</h:commandLink>
 				</h:column>
 				
+				<h:column>
+					<f:facet name="header">Telefones</f:facet>
+					<h:commandLink action="telefone.jsf" immediate="true" id="botaotelefone">
+						<h:graphicImage url="resources/img/phone-call.png" />
+						<f:param name="codigouser" value="#{user.id}" />
+					</h:commandLink>
+				</h:column>
+				
 			</h:dataTable>
 
 	</h:form>
