@@ -1,5 +1,11 @@
 package managedbean;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +14,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+
+import com.google.gson.Gson;
 
 import dao.DaoGeneric;
 import dao.DaoUsuario;
@@ -66,6 +75,39 @@ public class UsuarioPessoaManagedBean {
 		}
 		novo();
 		return "";
+	}
+	
+	public void pesquisaCep(AjaxBehaviorEvent event) {
+		try {
+			
+			URL url = new URL("https://viacep.com.br/ws/"+usuarioPessoa.getCep()+"/json/"); //definindo a URL para chamar o WS
+			URLConnection connection = url.openConnection(); //abrindo uma conexão para a URL
+			InputStream ist = connection.getInputStream(); //pegando o retorno(fluxo de dados)
+			BufferedReader br = new BufferedReader(new InputStreamReader(ist, "UTF-8")); //lendo os dados
+			//varrendo o buffer, lendo e coloncado em uma variável de texto
+			
+			String cep = ""; //variável auxiliar par amanipular no while as linhas
+			StringBuilder jsonCep = new StringBuilder();
+			while ((cep = br.readLine()) != null) {
+				jsonCep.append(cep);
+			}
+			//objeto auxiliar para pegar os dados do json
+			//como os atributos do json e do objeto estão com os mesmo nome podemos fazer a adição direta
+			UsuarioPessoa userCepPessoa = new Gson().fromJson(jsonCep.toString(), UsuarioPessoa.class);
+			//passando os dados do objeto auxiliar para o objeto controlado na tela
+			usuarioPessoa.setCep(userCepPessoa.getCep());
+			usuarioPessoa.setLogradouro(userCepPessoa.getLogradouro());
+			usuarioPessoa.setComplemento(userCepPessoa.getComplemento());
+			usuarioPessoa.setBairro(userCepPessoa.getBairro());
+			usuarioPessoa.setLocalidade(userCepPessoa.getLocalidade());
+			usuarioPessoa.setUf(userCepPessoa.getUf());
+			usuarioPessoa.setUnidade(userCepPessoa.getUnidade());
+			usuarioPessoa.setIbge(userCepPessoa.getIbge());
+			usuarioPessoa.setGia(userCepPessoa.getGia());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -47,6 +47,36 @@
 				<f:selectItem itemValue="FEMININO" />
 			</h:selectOneMenu>
 			
+			<h:outputLabel value="CEP:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}">
+				<f:ajax event="blur" execute="@this" listener="#{usuarioPessoaManagedBean.pesquisaCep}"
+				 render="logradouro complemento bairro localidade uf unidade ibge gia"/>
+			</h:inputText>
+			
+			<h:outputLabel value="Logradouro:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.logradouro}" id="logradouro" />
+			
+			<h:outputLabel value="Complemento:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.complemento}" id="complemento" />
+			
+			<h:outputLabel value="Bairro:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}" id="bairro" />
+			
+			<h:outputLabel value="Localidade:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.localidade}" id="localidade" />
+			
+			<h:outputLabel value="UF:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.uf}" id="uf" />
+			
+			<h:outputLabel value="Unidade:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.unidade}" id="unidade" />
+			
+			<h:outputLabel value="IBGE:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.ibge}" id="ibge" />
+			
+			<h:outputLabel value="GIA:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.gia}" id="gia" />
+			
 			<h:outputLabel value="Login: " />
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}" />
 			
