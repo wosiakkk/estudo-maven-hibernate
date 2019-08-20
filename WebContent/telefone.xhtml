@@ -38,5 +38,38 @@
 		<h:commandButton value="Salvar" action="#{telefoneManagedBean.salvar}"></h:commandButton>
 
 	</h:form>
+	<br/>
+	<br/>
+	<h:form id="formTelefones">
+		<h:dataTable value="#{telefoneManagedBean.user.telefoneUsers}" var="fone" cellpadding="15" border="1" id="tableFone">
+			<f:facet name="header">Lista de telefones</f:facet>
+			
+			<h:column style="width:150px;">
+				<f:facet name="header">ID</f:facet>
+				<h:outputText value="#{fone.id}" />
+			</h:column>
+			
+			<h:column style="width:150px;">
+				<f:facet name="header">Número</f:facet>
+				<h:outputText value="#{fone.numero}" />
+			</h:column>
+			
+			<h:column style="width:150px;">
+				<f:facet name="header">Tipo</f:facet>
+				<h:outputText value="#{fone.tipo}" />
+			</h:column>
+			
+			<h:column>
+					<f:facet name="header">Excluir</f:facet>
+					<h:commandLink action="#{telefoneManagedBean.removeTelefone}" immediate="true" id="botaoremovertel">
+						<h:graphicImage url="resources/img/delete.png" />
+						<!-- o valor que está na linha(value="#{fone}) é injetado no managedbean para após ser executado ométodo remover -->
+						<f:setPropertyActionListener value="#{fone}" 
+							target="#{telefoneManagedBean.telefone}"/>
+						<f:ajax execute="botaoremovertel" render="@form :formulario:msg" />
+					</h:commandLink>
+				</h:column>
+		</h:dataTable>
+	</h:form>
 </h:body>
 </html>

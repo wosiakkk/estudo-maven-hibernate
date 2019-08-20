@@ -36,8 +36,9 @@ public class DaoGeneric<E> {
 	}
 
 	public E pesquisar(Long id, Class<E> entidade) {
-
+		entityManager.clear(); //o entity estava carregando em cache dados antigos nas op de exlusões e inserções de telefones, e o data table não carregava em tempo real.
 		E e = (E) entityManager.find(entidade, id);
+		//E e = (E) entityManager.createQuery("from "+ entidade.getSimpleName() + " where id = "+ id).getSingleResult();
 
 		return e;
 	}
