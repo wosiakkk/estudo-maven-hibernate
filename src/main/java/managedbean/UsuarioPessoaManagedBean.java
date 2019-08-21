@@ -50,6 +50,7 @@ public class UsuarioPessoaManagedBean {
 		daoGeneric.salvar(usuarioPessoa);
 		list.add(usuarioPessoa);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação: ","Salvo com Sucesso!"));
+		novo();
 		return "";
 	}
 	
