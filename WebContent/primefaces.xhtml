@@ -19,13 +19,13 @@
 		</p:breadCrumb>
 	</h:form>
 		<!-- retiramos o <p:column> e deixamos o primefaces criar automaticamente as colunas, ele deixa mais organizado no visual -->
-	<h:form>
+	<h:form id="formulario">
 		<p:messages showDetail="true" closable="true">
 			<p:autoUpdate/>
 		</p:messages>
 		<br/>
 		<br/>
-		<p:panelGrid columns="3">
+		<p:panelGrid columns="2">
 	
 			<p:outputLabel value="ID:" />
 			<p:inputText readonly="true"
@@ -44,6 +44,12 @@
 			<p:outputLabel value="Idade:" />
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}" />
 
+			<p:outputLabel value="Sexo:" />
+			<p:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}">
+				<f:selectItem itemValue="MASCULINO" itemLabel="Masculino" />
+				<f:selectItem itemValue="FEMININO" itemLabel="Feminino" />
+			</p:selectOneMenu>
+
 			<p:outputLabel value="Login:" />
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}" />
 			
@@ -55,8 +61,11 @@
 		<!-- por padrão no primefaces esse componente vem com o ajax ativado, deve ativar apra enviar o formulário desta forma -->
 		<p:commandButton value="Salvar" ajax="false"
 			action="#{usuarioPessoaManagedBean.salvar}" />
-		<p:commandButton value="Novo" ajax="false"
-			action="#{usuarioPessoaManagedBean.novo}" />
+			
+		<p:commandButton value="Novo" 
+			action="#{usuarioPessoaManagedBean.novo}" immediate="true">
+			<f:ajax execute="@this" render="@form" />
+		</p:commandButton>
 
 	</h:form>
 	<br />
@@ -89,19 +98,31 @@
 			</p:column>
 
 			<p:column headerText="Editar">
-				<h:commandLink value="Editar">
+				<h:commandLink title="Editar" immediate="true" id="botaoEditar">
+					<h:graphicImage url="resources/img/edit.png" />
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
+						<f:ajax execute="botaoEditar" render="formulario" />	
 				</h:commandLink>
 			</p:column>
 
 			<p:column headerText="Excluir">
-				<h:commandLink value="Excluir"
-					action="#{usuarioPessoaManagedBean.remover}">
+				<h:commandLink title="Excluir"
+					action="#{usuarioPessoaManagedBean.remover}" id="botaoRemover">
+					<h:graphicImage url="resources/img/delete.png" />
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
+						<f:ajax execute="botaoRemover" render="formData" />
 				</h:commandLink>
 			</p:column>
+
+			<p:column>
+					<f:facet name="header">Telefones</f:facet>
+					<h:commandLink action="telefoneprimefaces.jsf" immediate="true" id="botaotelefone">
+						<h:graphicImage url="resources/img/phone-call.png" />
+						<f:param name="codigouser" value="#{user.id}" />
+					</h:commandLink>
+				</p:column>
 
 		</p:dataTable>
 	</h:form>
