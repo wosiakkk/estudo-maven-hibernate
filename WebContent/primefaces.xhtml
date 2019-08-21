@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastro PRIMEFACES</title>
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:breadCrumb>
+			<p:menuitem />
+			<p:menuitem value="Página JSF" action="index.jsf" />
+			<p:menuitem value="Página Primefaces" action="primefaces.jsf" />
+		</p:breadCrumb>
+	</h:form>
+		<!-- retiramos o <p:column> e deixamos o primefaces criar automaticamente as colunas, ele deixa mais organizado no visual -->
+	<h:form>
+		<p:panelGrid columns="2">
+	
+			<p:outputLabel value="ID:" />
+			<p:inputText readonly="true"
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.id}" />
+
+			<p:outputLabel value="Nome:" />
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}" />
+
+			<p:outputLabel value="Sobrenome:" />
+			<p:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.sobrenome}" />
+
+			<p:outputLabel value="Email:" />
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}" />
+
+			<p:outputLabel value="Idade:" />
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}" />
+
+			<p:outputLabel value="Login:" />
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}" />
+
+			<p:outputLabel value="Senha:" />
+			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}" />
+
+		</p:panelGrid>
+		<br />
+		<!-- por padrão no primefaces esse componente vem com o ajax ativado, deve ativar apra enviar o formulário desta forma -->
+		<p:commandButton value="Salvar" ajax="false"
+			action="#{usuarioPessoaManagedBean.salvar}" />
+		<p:commandButton value="Novo" ajax="false"
+			action="#{usuarioPessoaManagedBean.novo}" />
+
+	</h:form>
+	<br />
+	<br />
+	<h:form id="formData">
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user">
+			<f:facet name="header">Lista de Usuários</f:facet>
+			<p:column headerText="ID:">
+				<h:outputText value="#{user.id}" />
+			</p:column>
+
+			<p:column headerText="Nome:">
+				<h:outputText value="#{user.nome}" />
+			</p:column>
+
+			<p:column headerText="Sobrenome:">
+				<h:outputText value="#{user.sobrenome}" />
+			</p:column>
+
+			<p:column headerText="Email:">
+				<h:outputText value="#{user.email}" />
+			</p:column>
+
+			<p:column headerText="Idade:">
+				<h:outputText value="#{user.idade}" />
+			</p:column>
+
+			<p:column headerText="Login:">
+				<h:outputText value="#{user.login}" />
+			</p:column>
+
+			<p:column headerText="Editar">
+				<h:commandLink value="Editar">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
+				</h:commandLink>
+			</p:column>
+
+			<p:column headerText="Excluir">
+				<h:commandLink value="Excluir"
+					action="#{usuarioPessoaManagedBean.remover}">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
+				</h:commandLink>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
