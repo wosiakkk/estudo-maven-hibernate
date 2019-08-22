@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -24,7 +25,6 @@ public class UsuarioPessoa {
 	
 	private String nome;
 	private String sobrenome;
-	private String email;
 	private String login;
 	private String senha;
 	private String sexo;
@@ -32,7 +32,10 @@ public class UsuarioPessoa {
 	private Double salario;
 	
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER) //mapemaneto da fk definida no TelefoneUser
-	private List<TelefoneUser> telefoneUsers;
+	private List<TelefoneUser> telefoneUsers = new ArrayList<TelefoneUser>();
+	
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY)
+	private List<EmailUser> emailUser = new ArrayList<EmailUser>();
 	
 	private String cep;
 	private String logradouro;
@@ -53,6 +56,14 @@ public class UsuarioPessoa {
 		this.telefoneUsers = telefoneUsers;
 	}
 
+	public void setEmailUser(List<EmailUser> emailUser) {
+		this.emailUser = emailUser;
+	}
+	
+	public List<EmailUser> getEmailUser() {
+		return emailUser;
+	}
+	
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
@@ -78,12 +89,6 @@ public class UsuarioPessoa {
 	}
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getLogin() {
 		return login;
@@ -166,8 +171,7 @@ public class UsuarioPessoa {
 
 	@Override
 	public String toString() {
-		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
-				+ ", login=" + login + ", senha=" + senha + "]";
+		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + ", login=" + login + ", senha=" + senha + "]";
 	}
 
 	@Override

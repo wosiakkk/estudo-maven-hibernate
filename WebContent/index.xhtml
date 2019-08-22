@@ -35,9 +35,6 @@
 			<h:outputLabel value="Sobrenome: " />
 			<h:inputText
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.sobrenome}" />
-				
-			<h:outputLabel value="Email: " />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}" />
 			
 			<h:outputLabel value="Idade: " />
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}" />
@@ -115,11 +112,6 @@
 				<h:column>
 					<f:facet name="header">Sobrenome</f:facet>
 					<h:outputText value="#{user.sobrenome}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Email</f:facet>
-					<h:outputText value="#{user.email}" />
 				</h:column>
 				
 				<h:column>

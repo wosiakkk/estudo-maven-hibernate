@@ -24,7 +24,6 @@ public class TesteHibernate {
 		UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 		usuarioPessoa.setNome("testeIdade");
 		usuarioPessoa.setSobrenome("Idade");
-		usuarioPessoa.setEmail("idade@gmail.com");
 		usuarioPessoa.setLogin("idade");
 		usuarioPessoa.setSenha("1234");
 		usuarioPessoa.setIdade(23);
