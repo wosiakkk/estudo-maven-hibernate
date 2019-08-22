@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 import com.google.gson.Gson;
 
@@ -29,6 +33,7 @@ public class UsuarioPessoaManagedBean {
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 	private List<UsuarioPessoa> list =  new ArrayList<UsuarioPessoa>();
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
+	private BarChartModel barChartModel = new BarChartModel();
 	
 	@PostConstruct
 	public void init() {
@@ -37,6 +42,17 @@ public class UsuarioPessoaManagedBean {
 		 * Por este motivo também foi add o equals e hashcode por id no objeto pessoa
 		 * para o sistema saber a dfenreça entre eles em memória*/
 		list = daoGeneric.listar(UsuarioPessoa.class);
+		ChartSeries userSalario = new ChartSeries();
+		//carregando o gráfico
+		for (UsuarioPessoa usuarioPessoa : list) {
+			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
+		}
+		barChartModel.addSeries(userSalario);
+		barChartModel.setTitle("Salário dos Usuários");
+	}
+	
+	public BarChartModel getBarChartModel() {
+		return barChartModel;
 	}
 	
 	public UsuarioPessoa getUsuarioPessoa() {
