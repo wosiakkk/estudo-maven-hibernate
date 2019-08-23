@@ -9,13 +9,28 @@ public class DaoUsuario<E> extends DaoGeneric<UsuarioPessoa>{
 		 * mesmo, que no caso é os telefones.*/
 	
 	public void removerUsuario(UsuarioPessoa pessoa) throws Exception {
+	/*
 		//Como a classe extends dao generic temos acesso ao método que retorna o entitymanager
 		getEntityManager().getTransaction().begin();
 		String sqlDeleteTelefone = "delete from telefoneuser where usuariopessoa_id = "+pessoa.getId();
 		getEntityManager().createNativeQuery(sqlDeleteTelefone).executeUpdate(); 
+		String sqlDeleteEmails = "delete from emailuser where usuariopessoa_id = "+pessoa.getId();
+		
+		getEntityManager().createNativeQuery(sqlDeleteEmails).executeUpdate(); 
+		
 		getEntityManager().getTransaction().commit();
-		/*Após deletar os telefones(filhos), basta deletar o usuário, com isso chamamos o método da 
+		/*Após deletar os telefones e emails(filhos), basta deletar o usuário, com isso chamamos o método da 
 		 * classe pai extendida com super.*/
-		super.deletarPorId(pessoa);
+		/*super.deletarPorId(pessoa);
+		
+		*TODO CÓDIGO FOI SUBSTITUIDO APÓS A IMPLEMENÇÃO DA OPÇÃO DE DELETE ME CASCATA NO MODEL USUÁRIO
+		*/
+		//FORMA DE DELETE EM CASCATA:
+		
+		getEntityManager().getTransaction().begin();
+		
+		getEntityManager().remove(pessoa); //método remove do JPA
+		
+		getEntityManager().getTransaction().commit();
 	}
 }

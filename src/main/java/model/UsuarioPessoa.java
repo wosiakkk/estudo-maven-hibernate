@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,10 +32,11 @@ public class UsuarioPessoa {
 	private int idade;
 	private Double salario;
 	
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER) //mapemaneto da fk definida no TelefoneUser
+	//opção 'cascade = CascadeType.REMOVE, orphanRemoval = true' vai remover em cascata emails e telefones ao remover um usuário
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true) //mapemaneto da fk definida no TelefoneUser
 	private List<TelefoneUser> telefoneUsers = new ArrayList<TelefoneUser>();
 	
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<EmailUser> emailUser = new ArrayList<EmailUser>();
 	
 	private String cep;
