@@ -22,8 +22,10 @@ import org.primefaces.model.chart.ChartSeries;
 
 import com.google.gson.Gson;
 
+import dao.DaoEmail;
 import dao.DaoGeneric;
 import dao.DaoUsuario;
+import model.EmailUser;
 import model.UsuarioPessoa;
 
 @ManagedBean(name = "usuarioPessoaManagedBean")
@@ -34,6 +36,8 @@ public class UsuarioPessoaManagedBean {
 	private List<UsuarioPessoa> list =  new ArrayList<UsuarioPessoa>();
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	private BarChartModel barChartModel = new BarChartModel();
+	private EmailUser emailUser = new EmailUser();
+	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>();
 	
 	@PostConstruct
 	public void init() {
@@ -49,6 +53,14 @@ public class UsuarioPessoaManagedBean {
 		}
 		barChartModel.addSeries(userSalario);
 		barChartModel.setTitle("Salário dos Usuários");
+	}
+	
+	public void setEmailUser(EmailUser emailUser) {
+		this.emailUser = emailUser;
+	}
+	
+	public EmailUser getEmailUser() {
+		return emailUser;
 	}
 	
 	public BarChartModel getBarChartModel() {
@@ -125,6 +137,32 @@ public class UsuarioPessoaManagedBean {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void addEmail() {
+		//amarrando o email ao objeto pessoa
+		emailUser.setUsuarioPessoa(usuarioPessoa);
+		//nesse moemento o emailUser recebe o obejto completo gravado no banco, anteriormente só tinha o texto digitado na tela
+		emailUser = daoEmail.updateMerge(emailUser);
+		//adicionando o email a lista de emails do usuário
+		usuarioPessoa.getEmailUser().add(emailUser);
+		//preparando o objeto para gravar um novo email
+		emailUser = new EmailUser();
+		//mensagem
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "E-mail salvo com sucesso!"));
+	}
+	
+	public void removerEmail() throws Exception {
+		//pegando o código da requisição que foi enviado como parâmetro
+		String codigoEmail = FacesContext.getCurrentInstance().
+				getExternalContext().getRequestParameterMap().get("codigoemail");
+		//definindo um objeto com o id da requisição para passar para o método de remover por id
+		EmailUser remover = new EmailUser();
+		remover.setId(Long.parseLong(codigoEmail));
+		daoEmail.deletarPorId(remover);
+		//para não precisar consultar todos os emails novamente no banco para atualizar a lista, apenas removemos na que esta em memória, poupando processamento
+		usuarioPessoa.getEmailUser().remove(remover);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Removido com sucesso!"));
 	}
 	
 }
