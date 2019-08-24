@@ -25,7 +25,7 @@
 		</p:growl>
 		<br />
 		<br />
-		<p:panelGrid columns="2">
+		<h:panelGrid columns="2">
 
 			<p:outputLabel value="ID:" />
 			<p:inputText readonly="true"
@@ -46,12 +46,12 @@
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}" />
 
 			<p:outputLabel value="Salário:" />
-			<p:inputText
+			<p:inputNumber
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}" />
 
 			<p:outputLabel value="Sexo:" />
 			<p:selectOneMenu
-				value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}">
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" >
 				<f:selectItem itemValue="MASCULINO" itemLabel="Masculino" />
 				<f:selectItem itemValue="FEMININO" itemLabel="Feminino" />
 			</p:selectOneMenu>
@@ -105,7 +105,7 @@
 			<p:outputLabel value="Senha:" />
 			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}" />
 
-		</p:panelGrid>
+		</h:panelGrid>
 		<br />
 		<!-- por padrão no primefaces esse componente vem com o ajax ativado, deve ativar apra enviar o formulário desta forma -->
 		<p:commandButton value="Salvar" ajax="false"
@@ -157,7 +157,7 @@
 					<h:graphicImage url="resources/img/delete.png" />
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}"></f:setPropertyActionListener>
-					<f:ajax execute="botaoRemover" render="formData" />
+					<f:ajax execute="botaoRemover" render="formData, :graficoSalario" />
 				</h:commandLink>
 			</p:column>
 
@@ -215,7 +215,7 @@
 
 	</h:form>
 
-	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChartModel}" />
+	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChartModel}" id="graficoSalario" />
 
 </h:body>
 </html>

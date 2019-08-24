@@ -41,6 +41,7 @@ public class UsuarioPessoaManagedBean {
 	
 	@PostConstruct
 	public void init() {
+		barChartModel = new BarChartModel();
 		/*por questões de performace a lista é pesquisada somente uma vez na construção
 		 * do objeto. Com isso, no método salvar e deletar a lista é manipulada em memória.
 		 * Por este motivo também foi add o equals e hashcode por id no objeto pessoa
@@ -77,6 +78,8 @@ public class UsuarioPessoaManagedBean {
 	public String salvar() {
 		daoGeneric.salvar(usuarioPessoa);
 		list.add(usuarioPessoa);
+		usuarioPessoa = new UsuarioPessoa();
+		init(); //chama novamnte o init para reconstruir o gráfco de salário após salvar um novo usuário
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação: ","Salvo com Sucesso!"));
 		//novo();
 		return "";
@@ -95,6 +98,7 @@ public class UsuarioPessoaManagedBean {
 		try {
 			daoGeneric.removerUsuario(usuarioPessoa);
 			list.remove(usuarioPessoa);
+			init();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação: ","Excluido com Sucesso!"));
 		} catch (Exception e) {
 			if(e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
