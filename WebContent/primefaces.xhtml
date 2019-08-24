@@ -118,6 +118,17 @@
 
 	</h:form>
 	<br />
+	
+	<h:form>
+		<p:panel header="Consultar usuário">
+			<h:panelGrid columns="3">
+				<p:outputLabel for="@next" value="Nome:"/>
+				<p:inputText value="#{usuarioPessoaManagedBean.campoPesquisa}" />
+				<p:commandButton value="Buscar" actionListener="#{usuarioPessoaManagedBean.pesquisar}" update="formData"/>
+			</h:panelGrid>		
+		</p:panel>	
+	</h:form>
+	
 	<br />
 	<h:form id="formData">
 		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user">

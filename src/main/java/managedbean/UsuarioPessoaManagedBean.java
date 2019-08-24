@@ -38,6 +38,7 @@ public class UsuarioPessoaManagedBean {
 	private BarChartModel barChartModel = new BarChartModel();
 	private EmailUser emailUser = new EmailUser();
 	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>();
+	private String campoPesquisa;
 	
 	@PostConstruct
 	public void init() {
@@ -73,6 +74,14 @@ public class UsuarioPessoaManagedBean {
 	}
 	public void setUsuarioPessoa(UsuarioPessoa usuarioPessoa) {
 		this.usuarioPessoa = usuarioPessoa;
+	}
+	
+	public void setCampoPesquisa(String campoPesquisa) {
+		this.campoPesquisa = campoPesquisa;
+	}
+	
+	public String getCampoPesquisa() {
+		return campoPesquisa;
 	}
 	
 	public String salvar() {
@@ -167,6 +176,10 @@ public class UsuarioPessoaManagedBean {
 		//para não precisar consultar todos os emails novamente no banco para atualizar a lista, apenas removemos na que esta em memória, poupando processamento
 		usuarioPessoa.getEmailUser().remove(remover);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Removido com sucesso!"));
+	}
+	
+	public void pesquisar() {
+		list = daoGeneric.pesquisar(campoPesquisa);
 	}
 	
 }
