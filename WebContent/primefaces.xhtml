@@ -148,6 +148,12 @@
 				<h:outputText value="#{user.nome}" />
 			</p:column>
 
+			<p:column headerText="Foto">
+				<h:commandLink value="Baixar" immediate="true" actionListener="#{usuarioPessoaManagedBean.download}">
+					<f:param name="fileDownloadId" value="#{user.id}"/>
+				</h:commandLink>
+			</p:column>
+
 			<p:column headerText="Sobrenome:">
 				<h:outputText value="#{user.sobrenome}" />
 			</p:column>

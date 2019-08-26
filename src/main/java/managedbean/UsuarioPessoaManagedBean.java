@@ -2,6 +2,7 @@ package managedbean;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -16,8 +17,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -191,4 +194,22 @@ public class UsuarioPessoaManagedBean {
 		usuarioPessoa.setImagem(imagem);
 	}
 	
+	public void download() throws IOException{
+		//pegando o id do usuário da linha da tablea para download
+		String codUser = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fileDownloadId");
+		//pesquisando o usuário
+		UsuarioPessoa pessoa  = daoGeneric.pesquisar(Long.parseLong(codUser), UsuarioPessoa.class);
+		//preparar a imagem apra download
+		//byte[] imagem = Base64().decodeBase64(pessoa.getImagem().split("\\,")[1]);
+		byte[] imagem = Base64.decodeBase64(pessoa.getImagem().split("\\,")[1]);
+		
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		
+		response.addHeader("Content-Disposition", "attachment; filename=donwload.png"); 
+		response.setContentType("aplication/octet-stream");
+		response.setContentLength(imagem.length);
+		response.getOutputStream().write(imagem);
+		response.getOutputStream().flush();
+		FacesContext.getCurrentInstance().responseComplete();
+	}
 }
