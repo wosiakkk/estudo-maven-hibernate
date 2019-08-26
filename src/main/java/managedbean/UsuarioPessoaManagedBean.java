@@ -16,7 +16,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.xml.bind.DatatypeConverter;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
@@ -180,6 +182,13 @@ public class UsuarioPessoaManagedBean {
 	
 	public void pesquisar() {
 		list = daoGeneric.pesquisar(campoPesquisa);
+	}
+	
+	//para o método capturar o arquivo da tela primefaces através do ajax, é necessário esse parâmetro FileUploadEvent
+	public void upload(FileUploadEvent image) {
+		//convertendo a iamgem para base64, ela vem como bytes pelo parâmetro e usamos o método DatatypeConverter.printBase64Binary do javax para converte-la em base64
+		String imagem = "data:image/png;base64," + DatatypeConverter.printBase64Binary(image.getFile().getContents()); //cabeçalho base 64
+		usuarioPessoa.setImagem(imagem);
 	}
 	
 }

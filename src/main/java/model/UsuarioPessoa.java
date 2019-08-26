@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,6 +32,10 @@ public class UsuarioPessoa {
 	private String sexo;
 	private int idade;
 	private Double salario;
+	
+	//anotação necessária para ser criada a coluna do tipo texto, suficiente para armazenar uma imagem em base64
+	@Column(columnDefinition = "text")
+	private String imagem;
 	
 	//opção 'cascade = CascadeType.REMOVE, orphanRemoval = true' vai remover em cascata emails e telefones ao remover um usuário
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true) //mapemaneto da fk definida no TelefoneUser
@@ -170,7 +175,14 @@ public class UsuarioPessoa {
 	public void setSalario(Double salario) {
 		this.salario = salario;
 	}
-
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+	public String getImagem() {
+		return imagem;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + ", login=" + login + ", senha=" + senha + "]";

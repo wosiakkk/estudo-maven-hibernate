@@ -104,7 +104,14 @@
 
 			<p:outputLabel value="Senha:" />
 			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}" />
-
+			
+			<p:outputLabel value="Foto:" />
+			<p:fileUpload mode="advanced" label="Adicionar" auto="true" update="imagem" 
+			fileUploadListener="#{usuarioPessoaManagedBean.upload}" />
+			
+			<p:outputLabel value="Foto selecionada:" />
+			<h:graphicImage id="imagem" value="#{usuarioPessoaManagedBean.usuarioPessoa.imagem}" width="200" height="200"/>
+			
 		</h:panelGrid>
 		<br />
 		<!-- por padrão no primefaces esse componente vem com o ajax ativado, deve ativar apra enviar o formulário desta forma -->
