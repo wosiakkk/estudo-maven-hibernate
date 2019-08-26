@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import dao.DaoEmail;
 import dao.DaoGeneric;
 import dao.DaoUsuario;
+import datatablelazy.LazyDataTableModelUserPessoa;
 import model.EmailUser;
 import model.UsuarioPessoa;
 
@@ -38,7 +39,7 @@ import model.UsuarioPessoa;
 public class UsuarioPessoaManagedBean {
 
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
-	private List<UsuarioPessoa> list =  new ArrayList<UsuarioPessoa>();
+	private LazyDataTableModelUserPessoa<UsuarioPessoa> list =  new LazyDataTableModelUserPessoa<UsuarioPessoa>();
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	private BarChartModel barChartModel = new BarChartModel();
 	private EmailUser emailUser = new EmailUser();
@@ -52,10 +53,16 @@ public class UsuarioPessoaManagedBean {
 		 * do objeto. Com isso, no método salvar e deletar a lista é manipulada em memória.
 		 * Por este motivo também foi add o equals e hashcode por id no objeto pessoa
 		 * para o sistema saber a dfenreça entre eles em memória*/
-		list = daoGeneric.listar(UsuarioPessoa.class);
+		//list = daoGeneric.listar(UsuarioPessoa.class); *******************NÃO USADO AMIS A PARTIR DA IMPLEMENTAÇÃO DA LISTA LAZY PAGINADA***********************
+		
+		//*************LISTA PAGINADA********************
+		//carregando a primeira p´[agina da lista paginada, com 5 valores
+		list.load(0, 5, null, null, null);
+		
+		
 		ChartSeries userSalario = new ChartSeries();
 		//carregando o gráfico
-		for (UsuarioPessoa usuarioPessoa : list) {
+		for (UsuarioPessoa usuarioPessoa : list.list) {
 			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
 		}
 		barChartModel.addSeries(userSalario);
@@ -91,7 +98,7 @@ public class UsuarioPessoaManagedBean {
 	
 	public String salvar() {
 		daoGeneric.salvar(usuarioPessoa);
-		list.add(usuarioPessoa);
+		list.list.add(usuarioPessoa);
 		usuarioPessoa = new UsuarioPessoa();
 		init(); //chama novamnte o init para reconstruir o gráfco de salário após salvar um novo usuário
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação: ","Salvo com Sucesso!"));
@@ -104,14 +111,14 @@ public class UsuarioPessoaManagedBean {
 		return "";
 	}
 	
-	public List<UsuarioPessoa> getList() {
+	public LazyDataTableModelUserPessoa<UsuarioPessoa> getList() {
 		
 		return list;
 	}
 	public String remover() {
 		try {
 			daoGeneric.removerUsuario(usuarioPessoa);
-			list.remove(usuarioPessoa);
+			list.list.remove(usuarioPessoa);
 			init();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação: ","Excluido com Sucesso!"));
 		} catch (Exception e) {
@@ -184,7 +191,8 @@ public class UsuarioPessoaManagedBean {
 	}
 	
 	public void pesquisar() {
-		list = daoGeneric.pesquisar(campoPesquisa);
+		//list = daoGeneric.pesquisar(campoPesquisa);
+		list.pesquisar(campoPesquisa);
 	}
 	
 	//para o método capturar o arquivo da tela primefaces através do ajax, é necessário esse parâmetro FileUploadEvent
